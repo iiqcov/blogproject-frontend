@@ -1,22 +1,25 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
 import { useParams, useNavigate } from 'react-router-dom';
+import Cookies from 'js-cookie';
+import {useApi} from '../utils/useApi'
+import MarkdownEditor from '@uiw/react-markdown-editor';
 
 const EditArticle = () => {
     const { id } = useParams();
     const [title, setTitle] = useState('');
     const [content, setContent] = useState('');
     const navigate = useNavigate();
+    const api = useApi();
 
     useEffect(() => {
-        const token = localStorage.getItem('access_token');
+        const token = Cookies.get('token');
         if (!token) {
             alert('로그인이 필요합니다.');
             navigate('/login');
         } else {
             const fetchArticle = async () => {
                 try {
-                    const res = await axios.get(`http://localhost:8080/articles/${id}`);
+                    const res = await api.get(`/article/${id}`);
                     setTitle(res.data.title);
                     setContent(res.data.content);
                 } catch (error) {
@@ -26,29 +29,51 @@ const EditArticle = () => {
 
             fetchArticle();
         }
-    }, [id, navigate]);
+    }, []);
 
     const handleSubmit = async (event) => {
         event.preventDefault();
 
+        if (title === undefined) {
+            alert('제목을 입력해주세요.');
+            return;
+        }
+
+        if (content === undefined) {
+            alert('내용을 입력해주세요.');
+            return;
+        }
+
         try {
-            await axios.put(`http://localhost:8080/article/${id}`, { title, content });
-            navigate(`/articles/${id}`);  // 수정된 부분
+            const response = await api.put(`/api/article/${id}`, {
+                title: title,
+                content: content,
+            });
+            if (response.status === 200 || response.status === 201) {
+                alert('수정이 완료되었습니다.');
+                navigate(`/article/${id}`);
+            } else {
+                throw new Error('Failed to create article 22 ');
+            }
         } catch (error) {
-            console.error('Failed to update article', error);
+            console.error('Failed to update article?', error);
         }
     };
 
     return (
         <form onSubmit={handleSubmit}>
-            <label>
-                Title:
-                <input type="text" value={title} onChange={e => setTitle(e.target.value)} />
-            </label>
-            <label>
-                Content:
-                <textarea value={content} onChange={e => setContent(e.target.value)} />
-            </label>
+            <input 
+                type="text" 
+                value={title} 
+                onChange={e => setTitle(e.target.value)} 
+                placeholder="Title" 
+                className="input-field"
+            />
+            <MarkdownEditor 
+                value={content} 
+                onChange={(value, viewUpdate) => {setContent(value)}}
+                className="textarea-field"
+            />
             <button type="submit">수정 완료</button>
         </form>
     );

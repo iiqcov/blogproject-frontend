@@ -1,0 +1,23 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.input-field {
+    width: 60%;
+    margin-bottom: 20px;
+    padding: 10px;
+}
+
+.textarea-field {
+    width: 60%;
+    height: 400px;
+    margin-bottom: 20px;
+    padding: 10px;
+}
+
+.submit-button {
+    margin-top: 20px;
+}

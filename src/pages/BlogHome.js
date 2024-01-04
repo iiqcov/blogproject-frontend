@@ -58,10 +58,12 @@ const BlogHome = () => {
             <Header/>
             <h2>HOME</h2>
             <button onClick={goToArticles}>글 보러가기</button>
-            <button onClick={goToWriteArticle}>글 작성하기</button>
             {isLoggedIn ? (
                 // 로그인 상태일 때 보여줄 버튼
-                <button onClick={goToLogout}>로그아웃</button>
+                <>
+                    <button onClick={goToWriteArticle}>글 작성하기</button>
+                    <button onClick={goToLogout}>로그아웃</button>
+                </>
             ) : (
                 // 로그아웃 상태일 때 보여줄 버튼
                 <>
