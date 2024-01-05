@@ -1,10 +1,11 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef} from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useApi } from '../utils/useApi';
 import Cookies from 'js-cookie';
-import MarkdownEditor from '@uiw/react-markdown-editor';
+import { marked } from 'marked';
+import TextareaAutosize from 'react-textarea-autosize';
 
-import '../styles/CreateArticle.css'
+import '../styles/CreateArticle.css';
 
 const CreateArticle = () => {
     const [title, setTitle] = useState('');
@@ -12,7 +13,7 @@ const CreateArticle = () => {
 
     const navigate = useNavigate();
     const api = useApi();
-    
+    const textareaRef = useRef(null); 
 
     useEffect(() => {
         const token = Cookies.get('token');
@@ -35,9 +36,8 @@ const CreateArticle = () => {
             return;
         }
 
-         console.log('Title:', title);
+        console.log('Title:', title);
         console.log('Content:', content);
-
 
         try {
             const response = await api.post('/api/article', {
@@ -58,20 +58,28 @@ const CreateArticle = () => {
     };
 
     return (
-        <form onSubmit={handleSubmit} className="container">
-            <input 
-                type="text" 
-                value={title} 
-                onChange={e => setTitle(e.target.value)} 
-                placeholder="Title" 
-                className="input-field"
-            />
-            <MarkdownEditor 
-                value={content} 
-                onChange={(value, viewUpdate) => {setContent(value)}}
-                className="textarea-field"
-            />
-            <button type="submit" className="submit-button">Submit</button>
+        <form onSubmit={handleSubmit} className="container custom-container">
+            <div className="custom-input-field">
+                <input 
+                    type="text" 
+                    value={title} 
+                    onChange={e => setTitle(e.target.value)} 
+                    placeholder="Title" 
+                    className="input-field"
+                />
+                <button type="submit" className="submit-button custom-submit-button">Submit</button>
+            </div>
+            <div className="editor-container custom-editor-container">
+                <TextareaAutosize 
+                    value={content} 
+                    onChange={(event) => {setContent(event.target.value)}}
+                    className="textarea-field custom-textarea-field"
+                />
+                <div 
+                    dangerouslySetInnerHTML={{__html: marked(content)}}
+                    className="markdown-preview custom-markdown-preview"
+                />
+            </div>
         </form>
     );
 };

@@ -57,8 +57,6 @@ const Article = () => {
             </header>
             <h1>{article.title}</h1>
             <ReactMarkdown>{article.content}</ReactMarkdown>
-            <p>Created at: {new Date(article.created_at).toLocaleString()}</p>
-            <p>Updated at: {new Date(article.updated_at).toLocaleString()}</p>
             <button onClick={handleDelete}>Delete</button>
             <button onClick={handleEdit}>수정하기</button>
             <button onClick={handleGoToArticleList}>글 목록으로 가기</button>

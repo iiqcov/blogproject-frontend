@@ -1,23 +1,54 @@
-.container {
+.custom-container {
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
 }
+
+.custom-input-field {
+    display: flex;
+    justify-content: space-between;
+    width: 80%;
+    margin-bottom: 10px;
+    border-bottom: 1px solid #e3e3e3;
+}
+
+.custom-editor-container {
+    display: flex;
+    justify-content: space-between;
+    width: 80%;
+    margin-top: 10px;
+}
+
+.custom-textarea-field {
+    width: 50%;
+    min-height: 500px; 
+    overflow: visible; 
+    resize: none; 
+    border: none;
+    outline: none;
+    border-right: 1px solid #e3e3e3;
+}
+
+.custom-markdown-preview {
+    width: 50%;
+    overflow: visible;
+    margin-left: 20px;
+}
+
+.custom-submit-button {
+    align-self: flex-end;
+    margin-bottom: 20px;
+    padding-bottom: 20px;
+    padding: 10px 10px 10px 10px;
+}
+
 
 .input-field {
-    width: 60%;
+    width: 80%; 
+    border: 1px solid #888; 
+    border-radius: 10px; 
+    padding-bottom: 20px;
     margin-bottom: 20px;
-    padding: 10px;
-}
-
-.textarea-field {
-    width: 60%;
-    height: 400px;
-    margin-bottom: 20px;
-    padding: 10px;
-}
-
-.submit-button {
-    margin-top: 20px;
+    outline: none;
+    padding: 10px 0 10px 10px;
 }

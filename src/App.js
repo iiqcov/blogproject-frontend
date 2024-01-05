@@ -27,12 +27,8 @@ function App() {
                 <Route path="/article/:id" element={<Article />} />
                 <Route path="/login" element={<LoginPage />} />
                 <Route path="/sign-up" element={<SignupPage />} />
-                {isAuthenticated && (
-                    <>
-                        <Route path="/write-article" element={<WriteArticle />} />
-                        <Route path="/edit-article/:id" element={<UpdateArticle />} />
-                    </>
-                )}
+                <Route path="/write-article" element={<WriteArticle />} />
+                <Route path="/edit-article/:id" element={<UpdateArticle />} />
             </Routes>
         </Router>
     );
