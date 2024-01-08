@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useApi } from '../utils/useApi';
 import Cookies from 'js-cookie';
+import axios from 'axios';
 import TextareaAutosize from 'react-textarea-autosize';
 import { marked } from 'marked';
 
@@ -31,6 +32,38 @@ const EditArticle = () => {
             fetchArticle();
         }
     }, []);
+
+    const handleImageUpload = async (event) => {
+        const file = event.target.files[0];
+        if (!file) {
+            alert('이미지를 선택해주세요.');
+            return;
+        }
+        const formData = new FormData();
+        formData.append('image', file);
+
+        if (!formData.has('image')) {
+            alert('이미지 파일이 업로드되지 않았습니다.');
+            return;
+        }
+
+        try {
+            const response = await axios.post('http://localhost:8080/api/image', formData, {
+            headers: {
+                'Content-Type': 'multipart/form-data',
+                'Authorization': `Bearer ${Cookies.get('token')}`
+            },
+            });
+
+            const imageUrl = response.data.imageUrl;
+            console.log(imageUrl);
+            setContent(content + '\n' + '![](' + imageUrl+')');
+        } catch (error) {
+            console.error('Failed to upload image', error);
+            alert('이미지 업로드에 실패했습니다.');
+        }
+        event.target.value=null;
+    };
 
     const handleSubmit = async (event) => {
         event.preventDefault();
@@ -71,6 +104,11 @@ const EditArticle = () => {
                     onChange={e => setTitle(e.target.value)} 
                     placeholder="Title" 
                     className="input-field"
+                />
+                <input 
+                    type="file"
+                    onChange={handleImageUpload}
+                    className="upload-button"
                 />
                 <button type="submit" className="submit-button custom-submit-button">Submit</button>
             </div>
