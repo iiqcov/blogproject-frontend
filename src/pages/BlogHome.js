@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import Cookies from 'js-cookie';
 import Header from '../common/Header'
 import axios from 'axios';
+import Sidebar from '../common/Sidebar';
 
 
 const BlogHome = () => {
@@ -55,24 +56,27 @@ const BlogHome = () => {
 
     return (
         <div>
-            <Header/>
+          <Header/>
+          <Sidebar/>
+          <div style={{ marginLeft: '300px' }}>
             <h2>HOME</h2>
             <button onClick={goToArticles}>글 보러가기</button>
             {isLoggedIn ? (
-                // 로그인 상태일 때 보여줄 버튼
-                <>
-                    <button onClick={goToWriteArticle}>글 작성하기</button>
-                    <button onClick={goToLogout}>로그아웃</button>
-                </>
+              <>
+                <button onClick={goToWriteArticle}>글 작성하기</button>
+                <button onClick={goToLogout}>로그아웃</button>
+              </>
             ) : (
-                // 로그아웃 상태일 때 보여줄 버튼
-                <>
-                    <button onClick={goToLogin}>로그인</button>
-                    <button onClick={goToSignup}>회원가입</button>
-                </>
+              <>
+                <button onClick={goToLogin}>로그인</button>
+                <button onClick={goToSignup}>회원가입</button>
+              </>
             )}
+          </div>
         </div>
-    );
+      );
+      
+      
 }
 
 export default BlogHome;
