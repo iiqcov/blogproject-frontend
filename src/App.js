@@ -8,6 +8,7 @@ import UpdateArticle from './pages/UpdateArticle';
 import LoginPage from './pages/LoginPage';
 import SignupPage from './pages/SigunupPage';
 import Cookies from 'js-cookie';
+import Folder from './pages/Folder';
 
 function App() {
     const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -29,6 +30,7 @@ function App() {
                 <Route path="/sign-up" element={<SignupPage />} />
                 <Route path="/write-article" element={<WriteArticle />} />
                 <Route path="/edit-article/:id" element={<UpdateArticle />} />
+                <Route path="/folder" element={<Folder/>}/>
             </Routes>
         </Router>
     );

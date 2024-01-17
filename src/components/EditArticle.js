@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useApi } from '../utils/useApi';
-import Cookies from 'js-cookie';
-import axios from 'axios';
 import TextareaAutosize from 'react-textarea-autosize';
+import ImageUpload from './image/ImageUpload';
 import { marked } from 'marked';
+
+import FolderView from './folder/FolderView';
+import CheckLogin from './login/CheckLogin';
 
 const EditArticle = () => {
     const { id } = useParams();
@@ -15,55 +17,22 @@ const EditArticle = () => {
     const api = useApi();
 
     useEffect(() => {
-        const token = Cookies.get('token');
-        if (!token) {
-            alert('로그인이 필요합니다.');
-            navigate('/login');
-        } else {
-            const fetchArticle = async () => {
-                try {
-                    const res = await api.get(`/article/${id}`);
-                    setTitle(res.data.title);
-                    setContent(res.data.content);
-                } catch (error) {
-                    console.error('Failed to fetch article', error);
-                }
-            };
-            fetchArticle();
-        }
-    }, []);
+        const fetchArticle = async () => {
+            try {
+                const res = await api.get(`/article/${id}`);
+                setTitle(res.data.title);
+                setContent(res.data.content);
+            } catch (error) {
+                console.error('Failed to fetch article', error);
+            }
+        };
+        fetchArticle();
+    }, [id]);
 
-    const handleImageUpload = async (event) => {
-        const file = event.target.files[0];
-        if (!file) {
-            alert('이미지를 선택해주세요.');
-            return;
-        }
-        const formData = new FormData();
-        formData.append('image', file);
-
-        if (!formData.has('image')) {
-            alert('이미지 파일이 업로드되지 않았습니다.');
-            return;
-        }
-
-        try {
-            const response = await axios.post('http://localhost:8080/api/image', formData, {
-            headers: {
-                'Content-Type': 'multipart/form-data',
-                'Authorization': `Bearer ${Cookies.get('token')}`
-            },
-            });
-
-            const imageUrl = response.data.imageUrl;
-            console.log(imageUrl);
-            setContent(content + '\n' + '![](' + imageUrl+')');
-        } catch (error) {
-            console.error('Failed to upload image', error);
-            alert('이미지 업로드에 실패했습니다.');
-        }
-        event.target.value=null;
+    const handleImageUpload = (imageUrl) => {
+        setContent(prevContent => `${prevContent}\n<img src="${imageUrl}" width="500">`);
     };
+    
 
     const handleSubmit = async (event) => {
         event.preventDefault();
@@ -97,6 +66,8 @@ const EditArticle = () => {
 
     return (
         <form onSubmit={handleSubmit} className="container custom-container">
+            <CheckLogin />
+            <FolderView />
             <div className="custom-input-field">
                 <input 
                     type="text" 
@@ -105,12 +76,8 @@ const EditArticle = () => {
                     placeholder="Title" 
                     className="input-field"
                 />
-                <input 
-                    type="file"
-                    onChange={handleImageUpload}
-                    className="upload-button"
-                />
-                <button type="submit" className="submit-button custom-submit-button">Submit</button>
+                <ImageUpload onUpload={handleImageUpload} />
+                <button type="submit" className="submit-button custom-submit-button">수정완료</button>
             </div>
             <div className="editor-container custom-editor-container">
                 <TextareaAutosize 

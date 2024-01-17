@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
-const FolderList = ({ folderInput, setFolderInput }) => {
+const FolderList = ({ input, setInput }) => {
     const [data, setData] = useState([]);
-    const [input, setInput] = useState('');
     let firstSlashInput = false;
 
     useEffect(() => {
@@ -16,7 +15,7 @@ const FolderList = ({ folderInput, setFolderInput }) => {
     }, []);
 
     const handleInputChange = (e) => {
-        setFolderInput(e.target.value);
+        setInput(e.target.value);
     };
 
     const flattenFolders = (data) => {

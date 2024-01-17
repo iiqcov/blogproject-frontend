@@ -1,0 +1,16 @@
+.sidebar {
+    width: 200px;
+    height: 100vh;
+    overflow-y: auto;
+    position: fixed;
+    left: 0;
+    top: 0;
+    padding: 20px;
+    border-right: 1px solid #a6a6a6;
+    background-color: hsl(0, 0%, 100%);
+}
+
+/* 새로운 스타일 */
+.content {
+    margin-left: 220px; /* 사이드바 너비 + 패딩 */
+}

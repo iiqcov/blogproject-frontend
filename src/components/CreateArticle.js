@@ -1,60 +1,27 @@
-import React, { useState, useEffect } from 'react'; // 'useRef' 제거
+import React, { useState} from 'react'; 
 import { useNavigate } from 'react-router-dom';
 import { useApi } from '../utils/useApi';
-import axios from 'axios';
-import Cookies from 'js-cookie';
 import { marked } from 'marked';
 import TextareaAutosize from 'react-textarea-autosize';
+
+import FolderList from './folder/FolderView';
+import ImageUpload from './image/ImageUpload';
+import CheckLogin from './login/CheckLogin'; 
 
 import '../styles/CreateArticle.css';
 
 const CreateArticle = () => {
     const [title, setTitle] = useState('');
     const [content, setContent] = useState('');
+    const [folderInput, setFolderInput] = useState('');
 
     const navigate = useNavigate();
     const api = useApi();
 
-    useEffect(() => {
-        const token = Cookies.get('token');
-        if (!token) {
-            alert('로그인이 필요합니다.');
-            navigate('/login');
-        }
-    }, [navigate]);
-
-    const handleImageUpload = async (event) => {
-        const file = event.target.files[0];
-        if (!file) {
-            alert('이미지를 선택해주세요.');
-            return;
-        }
-        const formData = new FormData();
-        formData.append('image', file);
-
-        if (!formData.has('image')) {
-            alert('이미지 파일이 업로드되지 않았습니다.');
-            return;
-        }
-
-        try {
-            const response = await axios.post('http://localhost:8080/api/image', formData, {
-            headers: {
-                'Content-Type': 'multipart/form-data',
-                'Authorization': `Bearer ${Cookies.get('token')}`
-            },
-            });
-
-            const imageUrl = response.data.imageUrl;
-            console.log(imageUrl);
-            setContent(content + '\n' + '![](' + imageUrl+')');
-        } catch (error) {
-            console.error('Failed to upload image', error);
-            alert('이미지 업로드에 실패했습니다.');
-        }
-        event.target.value=null;
+    const handleImageUpload = (imageUrl) => {
+        setContent(`${content}\n<img src="${imageUrl}" width="500">`);
     };
-
+    
     const handleSubmit = async (event) => {
         event.preventDefault();
 
@@ -72,6 +39,7 @@ const CreateArticle = () => {
             const response = await api.post('/api/article', {
                 title: title,
                 content: content,
+                folder: folderInput,
             });
 
             if (response.status === 200 || response.status === 201) {
@@ -88,6 +56,8 @@ const CreateArticle = () => {
 
     return (
         <form onSubmit={handleSubmit} className="container custom-container">
+            <CheckLogin/>
+            <FolderList input={folderInput} setInput={setFolderInput} />
             <div className="custom-input-field">
                 <input 
                     type="text" 
@@ -96,11 +66,7 @@ const CreateArticle = () => {
                     placeholder="Title" 
                     className="input-field"
                 />
-                <input 
-                    type="file"
-                    onChange={handleImageUpload}
-                    className="upload-button"
-                />
+                <ImageUpload onUpload={handleImageUpload} />
                 <button type="submit" className="submit-button custom-submit-button">Submit</button>
             </div>
             <div className="editor-container custom-editor-container">

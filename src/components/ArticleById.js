@@ -2,9 +2,10 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useParams, useNavigate } from 'react-router-dom';
 import Header from '../common/Header'
-import ReactMarkdown from 'react-markdown'
+import {marked} from 'marked';  // Import 'marked' instead of 'ReactMarkdown'
 import Cookies from 'js-cookie';
 import {useApi} from '../utils/useApi'
+import Sidebar from '../common/Sidebar';
 
 const Article = () => {
     const { id } = useParams();
@@ -52,14 +53,17 @@ const Article = () => {
 
     return (
         <div>
-            <header>
-                <Header/>;
-            </header>
-            <h1>{article.title}</h1>
-            <ReactMarkdown>{article.content}</ReactMarkdown>
-            <button onClick={handleDelete}>Delete</button>
-            <button onClick={handleEdit}>수정하기</button>
-            <button onClick={handleGoToArticleList}>글 목록으로 가기</button>
+            <Header/>
+            <div style={{ display: 'flex' }}>
+                <Sidebar/>
+                <div style={{ marginLeft: '320px' }}>
+                    <h1>{article.title}</h1>
+                    <div dangerouslySetInnerHTML={{ __html: marked(article.content) }} />  {/* Use 'marked' to convert markdown to HTML */}
+                    <button onClick={handleDelete}>Delete</button>
+                    <button onClick={handleEdit}>수정하기</button>
+                    <button onClick={handleGoToArticleList}>글 목록으로 가기</button>
+                </div>
+            </div>
         </div>
     );
 }
