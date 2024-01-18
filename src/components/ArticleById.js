@@ -13,6 +13,9 @@ const Article = () => {
     const navigate = useNavigate();
     const api = useApi();
 
+    // 토큰을 가져옵니다.
+    const token = Cookies.get('token');
+
     useEffect(() => {
         axios.get(`http://localhost:8080/article/${id}`)
             .then(res => {
@@ -37,7 +40,6 @@ const Article = () => {
     };
 
     const handleEdit = () => {
-        const token = Cookies.get('token');
         if (token) {
             navigate(`/edit-article/${id}`);  // 수정 페이지로 이동
         } else {
@@ -58,10 +60,11 @@ const Article = () => {
                 <Sidebar/>
                 <div style={{ marginLeft: '320px' }}>
                     <h1>{article.title}</h1>
+                    <h2>{article.folder.name}</h2>
                     <div dangerouslySetInnerHTML={{ __html: marked(article.content) }} />  {/* Use 'marked' to convert markdown to HTML */}
-                    <button onClick={handleDelete}>Delete</button>
-                    <button onClick={handleEdit}>수정하기</button>
-                    <button onClick={handleGoToArticleList}>글 목록으로 가기</button>
+                    {token && <button onClick={handleDelete}>Delete</button>}
+                    {token && <button onClick={handleEdit}>수정하기</button>}
+                    {token && <button onClick={handleGoToArticleList}>글 목록으로 가기</button>}
                 </div>
             </div>
         </div>

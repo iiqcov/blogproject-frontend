@@ -35,12 +35,12 @@ const FolderList = ({ input, setInput }) => {
             if (inputParts.length === 2) {
                 if (!firstSlashInput) {
                     firstSlashInput = true;
-                    return data.map((item) => {
-                        if (item.name && item.name.startsWith(inputParts[1])) {
-                            return <div key={item.id}>{item.name}</div>;
-                        }
-                        return null;
-                    });
+                    const matchingFolders = data.filter((item) => item.name && item.name.startsWith(inputParts[1]));
+                    if (matchingFolders.length > 0) {
+                        return matchingFolders.map((item) => <div key={item.id}>{item.name}</div>);
+                    } else {
+                        return <div>null</div>;
+                    }
                 }
             } else if (inputParts.length > 2) {
                 const parentFolderName = inputParts[inputParts.length - 2];
