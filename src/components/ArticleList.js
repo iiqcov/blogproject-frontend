@@ -3,6 +3,7 @@ import axios from 'axios';
 import { Link, useNavigate } from 'react-router-dom';
 import Header from '../common/Header';
 import Sidebar from '../common/Sidebar';
+import Footer from '../common/Footer';
 
 const ArticleList = ({ url }) => {
     const [articles, setArticles] = useState([]);
@@ -35,6 +36,7 @@ const ArticleList = ({ url }) => {
                     )}
                 </div>
             </div>
+            <Footer/>
         </div>
     );
 }
