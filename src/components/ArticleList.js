@@ -24,11 +24,12 @@ const ArticleList = ({ url }) => {
             <Header/>
             <div style={{ display: 'flex' }}>
                 <Sidebar/>
-                <div style={{ marginLeft: '320px' }}> {/* 사이드바 너비 + 패딩 */}
+                <div style={{ marginLeft: '320px' }}>
                     {articles.map((article, index) => 
                     <div key={`article-${index}`}>
                         <h5>{article.title}</h5>
                         {article.folderName && <h5>{article.folderName}</h5>}
+                        {article.thumbnailLink && <img src={article.thumbnailLink} alt="thumbnail" style={{width: '500px', height: '300px'}} />}
                         <Link to={`/article/${article.id}`}>보러가기</Link>
                     </div>
                     )}

@@ -8,6 +8,7 @@ const HomePage = () => {
       <div>
         <ArticleList url={url} />
       </div>
+    
     );
 }
 

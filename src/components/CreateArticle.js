@@ -14,6 +14,7 @@ const CreateArticle = () => {
     const [title, setTitle] = useState('');
     const [content, setContent] = useState('');
     const [folderInput, setFolderInput] = useState('');
+    const [thumbnail, setThumbnail] = useState('');
 
     const navigate = useNavigate();
     const api = useApi();
@@ -21,6 +22,10 @@ const CreateArticle = () => {
     const handleImageUpload = (imageUrl) => {
         setContent(`${content}\n<img src="${imageUrl}" width="500">`);
     };
+
+    const handleThumbnailUpload = (imageUrl) => {
+        setThumbnail(imageUrl);
+    }
     
     const handleSubmit = async (event) => {
         event.preventDefault();
@@ -40,7 +45,11 @@ const CreateArticle = () => {
                 title: title,
                 content: content,
                 folder: folderInput,
+                thumbnailLink: thumbnail,
             });
+
+            console.log("섬네일 출력:", thumbnail);
+
 
             if (response.status === 200 || response.status === 201) {
                 alert('등록 완료되었습니다.');
@@ -57,7 +66,18 @@ const CreateArticle = () => {
     return (
         <form onSubmit={handleSubmit} className="container custom-container">
             <CheckLogin/>
-            <FolderList input={folderInput} setInput={setFolderInput} />
+            <div>
+                <FolderList input={folderInput} setInput={setFolderInput} />
+                {/* Show the thumbnail if it exists, otherwise show a placeholder */}
+                <div style={{width: '500px', height: '300px', overflow: 'hidden', border: '1px dashed gray', display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
+                    {thumbnail ? (
+                        <img src={thumbnail} alt="thumbnail" style={{width: '100%', height: '100%', objectFit: 'cover'}} />
+                    ) : (
+                        <p>썸네일을 등록해주세요</p>
+                    )}
+                </div>
+                <ImageUpload onUpload={handleThumbnailUpload} />
+            </div>
             <div className="custom-input-field">
                 <input 
                     type="text" 
