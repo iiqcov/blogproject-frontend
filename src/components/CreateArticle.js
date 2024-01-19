@@ -1,12 +1,12 @@
 import React, { useState} from 'react'; 
 import { useNavigate } from 'react-router-dom';
 import { useApi } from '../utils/useApi';
-import { marked } from 'marked';
 import TextareaAutosize from 'react-textarea-autosize';
 
 import FolderList from './folder/FolderView';
 import ImageUpload from './image/ImageUpload';
 import CheckLogin from './login/CheckLogin'; 
+import MarkdownRender from '../utils/MarkdownRenderer';
 
 import '../styles/CreateArticle.css';
 
@@ -48,8 +48,6 @@ const CreateArticle = () => {
                 thumbnailLink: thumbnail,
             });
 
-            console.log("섬네일 출력:", thumbnail);
-
 
             if (response.status === 200 || response.status === 201) {
                 alert('등록 완료되었습니다.');
@@ -68,7 +66,6 @@ const CreateArticle = () => {
             <CheckLogin/>
             <div>
                 <FolderList input={folderInput} setInput={setFolderInput} />
-                {/* Show the thumbnail if it exists, otherwise show a placeholder */}
                 <div style={{width: '500px', height: '300px', overflow: 'hidden', border: '1px dashed gray', display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
                     {thumbnail ? (
                         <img src={thumbnail} alt="thumbnail" style={{width: '100%', height: '100%', objectFit: 'cover'}} />
@@ -90,16 +87,13 @@ const CreateArticle = () => {
                 <button type="submit" className="submit-button custom-submit-button">Submit</button>
             </div>
             <div className="editor-container custom-editor-container">
-                <TextareaAutosize 
-                    value={content} 
-                    onChange={(event) => {setContent(event.target.value)}}
-                    className="textarea-field custom-textarea-field"
-                />
-                <div 
-                    dangerouslySetInnerHTML={{__html: marked(content)}}
-                    className="markdown-preview custom-markdown-preview"
-                />
-            </div>
+            <TextareaAutosize 
+                value={content} 
+                onChange={(event) => {setContent(event.target.value)}}
+                className="textarea-field custom-textarea-field"
+            />
+            <MarkdownRender content={content} />
+        </div>
         </form>
     );
 };
