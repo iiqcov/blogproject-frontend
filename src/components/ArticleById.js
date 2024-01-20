@@ -2,10 +2,11 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useParams, useNavigate } from 'react-router-dom';
 import Header from '../common/Header'
-import {marked} from 'marked';  // Import 'marked' instead of 'ReactMarkdown'
 import Cookies from 'js-cookie';
+
 import {useApi} from '../utils/useApi'
 import Sidebar from '../common/Sidebar';
+import MarkdownRender from '../utils/MarkdownRenderer';
 
 const Article = () => {
     const { id } = useParams();
@@ -61,7 +62,7 @@ const Article = () => {
                 <div style={{ marginLeft: '320px' }}>
                     <h1>{article.title}</h1>
                     <h2>{article.folder.name}</h2>
-                    <div dangerouslySetInnerHTML={{ __html: marked(article.content) }} />  {/* Use 'marked' to convert markdown to HTML */}
+                    <MarkdownRender content={article.content} />
                     {token && <button onClick={handleDelete}>Delete</button>}
                     {token && <button onClick={handleEdit}>수정하기</button>}
                     {token && <button onClick={handleGoToArticleList}>글 목록으로 가기</button>}

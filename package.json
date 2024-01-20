@@ -5,11 +5,12 @@
   "dependencies": {
     "@testing-library/jest-dom": "^5.17.0",
     "@testing-library/user-event": "^13.5.0",
-    "@uiw/react-markdown-editor": "^5.0.0",
     "axios": "^1.6.2",
     "js-cookie": "^3.0.5",
     "jsonwebtoken": "^9.0.2",
     "marked": "^11.1.1",
+    "prism-themes": "^1.9.0",
+    "prismjs": "^1.29.0",
     "react": "^17.0.0",
     "react-autosuggest": "^10.1.0",
     "react-cookie": "^7.0.0",
