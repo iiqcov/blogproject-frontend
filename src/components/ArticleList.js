@@ -1,23 +1,32 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { Link} from 'react-router-dom';
+import { Link } from 'react-router-dom';
+
 import Header from '../common/Header';
 import Sidebar from '../common/Sidebar';
 import Footer from '../common/Footer';
+import Pagination from './paging/Pagination';
 
 const ArticleList = ({ url }) => {
+    const [page, setPage] = useState(1); 
     const [articles, setArticles] = useState([]);
+    const [nextPageAvailable, setNextPageAvailable] = useState(true); 
 
     useEffect(() => {
-        axios.get(url)
+        setPage(1);
+    }, [url]);
+
+    useEffect(() => {
+        axios.get(`${url}?page=${page - 1}`) 
             .then(res => {
-                if (Array.isArray(res.data)) {
-                    setArticles(res.data);
+                if (res.data && res.data.page && Array.isArray(res.data.page.content)) {
+                    setArticles(res.data.page.content);
+                    setNextPageAvailable(res.data.hasNext);
                 } else {
-                    console.error('Data is not an array');
+                    console.error('Data is not a PagedArticleListViewResponse object');
                 }
             });
-    }, [url]);
+    }, [url, page]);
 
     return (
         <div>
@@ -37,6 +46,7 @@ const ArticleList = ({ url }) => {
                         <Link to={`/article/${article.id}`}>보러가기</Link>
                     </div>
                     )}
+                    <Pagination page={page} setPage={setPage} nextPageAvailable={nextPageAvailable} />
                 </div>
             </div>
             <Footer/>
