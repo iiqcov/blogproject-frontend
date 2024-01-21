@@ -8,16 +8,16 @@ import Footer from '../common/Footer';
 import Pagination from './paging/Pagination';
 
 const ArticleList = ({ url }) => {
-    const [page, setPage] = useState(1); 
+    const [page, setPage] = useState(0); // 페이지를 0으로 초기화
     const [articles, setArticles] = useState([]);
     const [nextPageAvailable, setNextPageAvailable] = useState(true); 
 
     useEffect(() => {
-        setPage(1);
+        setPage(0); // url이 변경될 때마다 페이지를 0으로 설정
     }, [url]);
 
     useEffect(() => {
-        axios.get(`${url}?page=${page - 1}`) 
+        axios.get(`${url}?page=${page}`) // 페이지 번호를 직접 사용
             .then(res => {
                 if (res.data && res.data.page && Array.isArray(res.data.page.content)) {
                     setArticles(res.data.page.content);
