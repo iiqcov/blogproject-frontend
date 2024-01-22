@@ -2,7 +2,7 @@ import React from 'react';
 import { useApi } from '../../utils/useApi';
 import { useNavigate } from 'react-router-dom';
 
-const PostArticle = ({ title, content, folderInput, thumbnailLink, isSubmitted, setIsSubmitted, articleId, setArticleId }) => {
+const PostArticle = ({ title, content, folderInput, thumbnailLink, isSubmitted, setIsSubmitted, articleId, setArticleId, isPublic }) => {
     const api = useApi();
     const navigate = useNavigate();
 
@@ -27,6 +27,7 @@ const PostArticle = ({ title, content, folderInput, thumbnailLink, isSubmitted, 
                     content: content,
                     thumbnailLink: thumbnailLink,
                     folder: folderInput,
+                    publicStatus: isPublic,
                 });
                 setIsSubmitted(true);
                 setArticleId(response.data.id);
@@ -35,6 +36,7 @@ const PostArticle = ({ title, content, folderInput, thumbnailLink, isSubmitted, 
                     title: title,
                     content: content,
                     thumbnailLink: thumbnailLink,
+                    publicStatus: isPublic,
                 });
             }
 

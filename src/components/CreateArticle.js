@@ -7,6 +7,7 @@ import CheckLogin from './login/CheckLogin';
 import MarkdownRender from '../utils/MarkdownRenderer';
 import PostArticle from './article/PostArticle';
 import TempSaveArticle from './article/TempSaveArticle';
+import Toggle from './button/Toggle';
 
 import '../styles/CreateArticle.css';
 
@@ -17,6 +18,7 @@ const CreateArticle = () => {
     const [thumbnail, setThumbnail] = useState('');
     const [isSubmitted, setIsSubmitted] = useState(false);
     const [articleId, setArticleId] = useState(null);
+    const [isPublic, setIsPublic] = useState(false);
 
     const handleImageUpload = (imageUrl) => {
         setContent(`${content}\n<img src="${imageUrl}" width="500">`);
@@ -39,6 +41,7 @@ const CreateArticle = () => {
                     )}
                 </div>
                 <ImageUpload onUpload={handleThumbnailUpload} />
+                <Toggle isToggled={isPublic} setIsToggled={setIsPublic} /> 
             </div>
             <div className="custom-input-field">
                 <input 
@@ -58,6 +61,7 @@ const CreateArticle = () => {
                     setIsSubmitted={setIsSubmitted}
                     articleId={articleId}
                     setArticleId={setArticleId}
+                    isPublic={isPublic}
                 />
                 <PostArticle 
                     title={title}
@@ -68,6 +72,7 @@ const CreateArticle = () => {
                     setIsSubmitted={setIsSubmitted}
                     articleId={articleId}
                     setArticleId={setArticleId}
+                    isPublic={isPublic}
                 />
             </div>
             <div className="editor-container custom-editor-container">

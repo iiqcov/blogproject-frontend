@@ -6,12 +6,14 @@ import ImageUpload from './image/ImageUpload';
 
 import CheckLogin from './login/CheckLogin';
 import MarkdownRender from '../utils/MarkdownRenderer';
+import Toggle from './button/Toggle';
 
 const EditArticle = () => {
     const { id } = useParams();
     const [title, setTitle] = useState('');
     const [content, setContent] = useState('');
     const [thumbnail, setThumbnail] = useState('');
+    const [isPublic, setIsPublic] = useState('');
 
     const navigate = useNavigate();
     const api = useApi();
@@ -22,6 +24,8 @@ const EditArticle = () => {
                 const res = await api.get(`/article/${id}`);
                 setTitle(res.data.title);
                 setContent(res.data.content);
+                setThumbnail(res.data.thumbnailLink);
+                setIsPublic(res.data.publicStatus);
             } catch (error) {
                 console.error('Failed to fetch article', error);
             }
@@ -55,6 +59,7 @@ const EditArticle = () => {
                 title: title,
                 content: content,
                 thumbnailLink: thumbnail,
+                publicStatus: isPublic,
             });
 
             if (response.status === 200 || response.status === 201) {
@@ -80,6 +85,7 @@ const EditArticle = () => {
                     )}
                 </div>
                 <ImageUpload onUpload={handleThumbnailUpload} />
+                <Toggle isToggled={isPublic} setIsToggled={setIsPublic} /> 
             </div>
             <div className="custom-input-field">
                 <input 
