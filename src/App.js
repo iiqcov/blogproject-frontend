@@ -10,6 +10,8 @@ import SignupPage from './pages/SigunupPage';
 import Cookies from 'js-cookie';
 import FolderPage from './pages/FolderPage';
 
+import FetchToken from './components//login/GetToken';
+
 function App() {
     const [isAuthenticated, setIsAuthenticated] = useState(false);
 
@@ -22,6 +24,7 @@ function App() {
 
     return (
         <Router>
+            <FetchToken />
             <Routes>
                 <Route path="" element={<BlogHome />} />
                 <Route path="/articles" element={<HomePage />} />
@@ -31,6 +34,7 @@ function App() {
                 <Route path="/write-article" element={<WriteArticle />} />
                 <Route path="/edit-article/:id" element={<UpdateArticle />} />
                 <Route path='/:folderName' element={<FolderPage/>}/>
+            
             </Routes>
         </Router>
     );

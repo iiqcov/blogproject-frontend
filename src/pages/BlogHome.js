@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Cookies from 'js-cookie';
-import Header from '../common/Header'
 import axios from 'axios';
-import Sidebar from '../common/Sidebar';
 
+import Header from '../common/Header'
+import Sidebar from '../common/Sidebar';
 
 const BlogHome = () => {
     const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -29,25 +29,13 @@ const BlogHome = () => {
         }
     };
 
-    const goToLogin = () => {
-        navigate('/login');
-    }
-
-    const goToSignup = () => {
-        navigate('/sign-up');
-    }
-
     const goToLogout = async() => {
         try {
-            // 서버로 로그아웃 요청 보내기
             await axios.post('http://localhost:8080/api/logout', {}, {
                 withCredentials: true
             });
-            // 쿠키 제거
             Cookies.remove('token');
-            // 로그인 상태 업데이트
             setIsLoggedIn(false);
-            // 홈페이지로 리다이렉트
             navigate('/');
         } catch (error) {
             console.error(error);
@@ -66,17 +54,10 @@ const BlogHome = () => {
                 <button onClick={goToWriteArticle}>글 작성하기</button>
                 <button onClick={goToLogout}>로그아웃</button>
               </>
-            ) : (
-              <>
-                <button onClick={goToLogin}>로그인</button>
-                <button onClick={goToSignup}>회원가입</button>
-              </>
-            )}
+            ) : null}
           </div>
         </div>
       );
-      
-      
 }
 
 export default BlogHome;
