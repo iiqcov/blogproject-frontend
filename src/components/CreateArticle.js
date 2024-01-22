@@ -1,12 +1,12 @@
-import React, { useState} from 'react'; 
-import { useNavigate } from 'react-router-dom';
-import { useApi } from '../utils/useApi';
+import React, { useState } from 'react'; 
 import TextareaAutosize from 'react-textarea-autosize';
 
 import FolderList from './folder/FolderView';
 import ImageUpload from './image/ImageUpload';
 import CheckLogin from './login/CheckLogin'; 
 import MarkdownRender from '../utils/MarkdownRenderer';
+import PostArticle from './article/PostArticle';
+import TempSaveArticle from './article/TempSaveArticle';
 
 import '../styles/CreateArticle.css';
 
@@ -15,9 +15,8 @@ const CreateArticle = () => {
     const [content, setContent] = useState('');
     const [folderInput, setFolderInput] = useState('');
     const [thumbnail, setThumbnail] = useState('');
-
-    const navigate = useNavigate();
-    const api = useApi();
+    const [isSubmitted, setIsSubmitted] = useState(false);
+    const [articleId, setArticleId] = useState(null);
 
     const handleImageUpload = (imageUrl) => {
         setContent(`${content}\n<img src="${imageUrl}" width="500">`);
@@ -26,43 +25,9 @@ const CreateArticle = () => {
     const handleThumbnailUpload = (imageUrl) => {
         setThumbnail(imageUrl);
     }
-    
-    const handleSubmit = async (event) => {
-        event.preventDefault();
-
-        if (title === undefined) {
-            alert('제목을 입력해주세요.');
-            return;
-        }
-
-        if (content === undefined) {
-            alert('내용을 입력해주세요.');
-            return;
-        }
-
-        try {
-            const response = await api.post('/api/article', {
-                title: title,
-                content: content,
-                folder: folderInput,
-                thumbnailLink: thumbnail,
-            });
-
-
-            if (response.status === 200 || response.status === 201) {
-                alert('등록 완료되었습니다.');
-                navigate('/articles');
-            } else {
-                throw new Error('Failed to create article');
-            }
-        } catch (error) {
-            console.error('Failed to create article', error);
-            alert('등록 실패했습니다.');
-        }
-    };
 
     return (
-        <form onSubmit={handleSubmit} className="container custom-container">
+        <form className="container custom-container">
             <CheckLogin/>
             <div>
                 <FolderList input={folderInput} setInput={setFolderInput} />
@@ -84,7 +49,26 @@ const CreateArticle = () => {
                     className="input-field"
                 />
                 <ImageUpload onUpload={handleImageUpload} />
-                <button type="submit" className="submit-button custom-submit-button">Submit</button>
+                <TempSaveArticle 
+                    title={title}
+                    content={content}
+                    folderInput={folderInput}
+                    thumbnailLink={thumbnail}
+                    isSubmitted={isSubmitted}
+                    setIsSubmitted={setIsSubmitted}
+                    articleId={articleId}
+                    setArticleId={setArticleId}
+                />
+                <PostArticle 
+                    title={title}
+                    content={content}
+                    folderInput={folderInput}
+                    thumbnailLink={thumbnail}
+                    isSubmitted={isSubmitted}
+                    setIsSubmitted={setIsSubmitted}
+                    articleId={articleId}
+                    setArticleId={setArticleId}
+                />
             </div>
             <div className="editor-container custom-editor-container">
             <TextareaAutosize 
