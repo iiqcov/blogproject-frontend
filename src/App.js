@@ -9,6 +9,7 @@ import LoginPage from './pages/LoginPage';
 import SignupPage from './pages/SigunupPage';
 import Cookies from 'js-cookie';
 import FolderPage from './pages/FolderPage';
+import ForbiddenPage from './pages/ForbiddenPage';
 
 import FetchToken from './components//login/GetToken';
 
@@ -34,7 +35,7 @@ function App() {
                 <Route path="/write-article" element={<WriteArticle />} />
                 <Route path="/edit-article/:id" element={<UpdateArticle />} />
                 <Route path='/:folderName' element={<FolderPage/>}/>
-            
+                <Route path="/forbidden_page" element={<ForbiddenPage />} /> 
             </Routes>
         </Router>
     );

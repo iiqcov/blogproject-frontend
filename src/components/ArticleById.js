@@ -7,6 +7,7 @@ import Cookies from 'js-cookie';
 import {useApi} from '../utils/useApi'
 import Sidebar from '../common/Sidebar';
 import MarkdownRender from '../utils/MarkdownRenderer';
+import '../styles/page/Article.css'
 
 const Article = () => {
     const { id } = useParams();
@@ -14,15 +15,25 @@ const Article = () => {
     const navigate = useNavigate();
     const api = useApi();
 
-    // 토큰을 가져옵니다.
     const token = Cookies.get('token');
 
     useEffect(() => {
-        axios.get(`http://localhost:8080/article/${id}`)
-            .then(res => {
-                setArticle(res.data);
-            });
-    }, [id]);
+        axios.get(`http://localhost:8080/article/${id}`, {
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        })
+        .then(res => {
+            setArticle(res.data);
+        })
+        .catch(error => {
+            if (error.response && error.response.status === 403) {
+                navigate('/forbidden_page');
+            }
+        });
+    }, [id, token, navigate]);
+    
+    
 
     const handleDelete = async () => {
         if (window.confirm('삭제하시겠습니까?')) {
@@ -58,8 +69,8 @@ const Article = () => {
         <div>
             <Header/>
             <div style={{ display: 'flex' }}>
-                <Sidebar/>
-                <div style={{ marginLeft: '320px' }}>
+                {/* <Sidebar/> */}
+                <div className="article-content">
                     <h1>{article.title}</h1>
                     <h2>{article.folder.name}</h2>
                     <MarkdownRender content={article.content} />
