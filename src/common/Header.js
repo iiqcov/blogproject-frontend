@@ -1,13 +1,25 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
+import '../styles/Header.css'
 
 const Header = () => {
+    const navigate = useNavigate();
+
+    const handleBlogClick = () => {
+        navigate("/");
+    };
+
+    const handleDevelopmentClick = () => {
+        navigate("/folder/BLOG");
+    };
+
     return (
-        <header>
-            <div style={{ textAlign: 'center' }}>
-                <Link to="/" style={{ textDecoration: 'none', color: 'inherit' }}>
-                    <h1>blog</h1>
-                </Link>
+        <header className="header">
+            <div className="header-content">
+                <h2 onClick={handleBlogClick} className="header-title">BLOG</h2>
+                <nav className="header-nav">
+                    <p onClick={handleDevelopmentClick} className="header-link">Blog Development</p>
+                </nav>
             </div>
         </header>
     );

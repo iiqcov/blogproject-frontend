@@ -1,0 +1,26 @@
+.folder {
+    cursor: pointer;
+  }
+  
+  .folder .toggle {
+    cursor: pointer;
+    color: #2b2b2b; 
+  }
+  
+  .folder .name {
+    font-size: 15px;
+    color: #2b2b2b; 
+  }
+  
+  .folder.level0 {
+    color: #2b2b2b;
+  }
+  
+  .folder.level1 {
+    color: #353535;
+  }
+  
+  .folder.level2 {
+    color: #414141;
+  }
+  

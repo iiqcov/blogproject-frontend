@@ -36,6 +36,7 @@ const MarkdownRender = ({ content }) => {
           return code;
         }
       },
+      breaks: false,
     });
 
     setHtmlContent(marked(content));
@@ -46,7 +47,7 @@ const MarkdownRender = ({ content }) => {
   }, [htmlContent]);
 
   return (
-    <div className="markdown-preview custom-markdown-preview"
+    <div className="markdown-preview-custom-markdown-preview"
          dangerouslySetInnerHTML={{ __html: htmlContent }} />
   );
 };

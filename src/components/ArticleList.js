@@ -4,82 +4,92 @@ import { Link } from 'react-router-dom';
 import Cookies from 'js-cookie';
 
 import Header from '../common/Header';
-import Sidebar from '../common/Sidebar';
-import Footer from '../common/Footer';
+import Sidebar from '../common/Sidebar'
 import Pagination from './paging/Pagination';
 
+import '../styles/ArticleList.css'; 
+
 const ArticleList = ({ url }) => {
-    const [page, setPage] = useState(0); 
-    const [articles, setArticles] = useState([]);
-    const [nextPageAvailable, setNextPageAvailable] = useState(true); 
-    const [token, setToken] = useState(null);
+  const [page, setPage] = useState(0); 
+  const [articles, setArticles] = useState([]);
+  const [nextPageAvailable, setNextPageAvailable] = useState(true); 
+  const [token, setToken] = useState(null);
 
-    useEffect(() => {
-        setPage(0); 
-    }, [url]);
+  useEffect(() => {
+    setPage(0); 
+  }, [url]);
 
-    useEffect(() => {
-        const storedToken = Cookies.get('token');
-        if (storedToken) {
-            setToken(storedToken);
+  useEffect(() => {
+    const storedToken = Cookies.get('token');
+    if (storedToken) {
+      setToken(storedToken);
+    }
+  }, []);
+
+  useEffect(() => {
+    const source = axios.CancelToken.source(); 
+
+    const headers = token 
+      ? { Authorization: `Bearer ${token}` } 
+      : {};
+
+    axios.get(`${url}?page=${page}`, { cancelToken: source.token, headers }) 
+      .then(res => {
+        if (res.data && res.data.page && Array.isArray(res.data.page.content)) {
+          setArticles(res.data.page.content);
+          setNextPageAvailable(res.data.hasNext);
+        } else {
+          console.error('Data is not a PagedArticleListViewResponse object');
         }
-    }, []);
+      }).catch(function (thrown) {
+        if (axios.isCancel(thrown)) {
+          console.log('Request canceled', thrown.message);
+        } else {
+          // handle error
+        }
+      });
 
-    useEffect(() => {
-        const source = axios.CancelToken.source(); 
-    
-        const headers = token 
-            ? { Authorization: `Bearer ${token}` } 
-            : {};
-    
-        axios.get(`${url}?page=${page}`, { cancelToken: source.token, headers }) 
-            .then(res => {
-                if (res.data && res.data.page && Array.isArray(res.data.page.content)) {
-                    setArticles(res.data.page.content);
-                    setNextPageAvailable(res.data.hasNext);
-                } else {
-                    console.error('Data is not a PagedArticleListViewResponse object');
-                }
-            }).catch(function (thrown) {
-                if (axios.isCancel(thrown)) {
-                    console.log('Request canceled', thrown.message);
-                } else {
-                    // handle error
-                }
-            });
-    
-        return () => {
-            source.cancel(); 
-        };
-    }, [url, page, token]);
-    
+    return () => {
+      source.cancel(); 
+    };
+  }, [url, page, token]);
 
-    return (
-        <div>
-            <Header/>
-            <div style={{ display: 'flex' }}>
-                <Sidebar/>
-                <div style={{ marginLeft: '320px' }}>
-                    {articles.map((article, index) => 
-                        <div key={`article-${index}`} style={{ borderBottom: index !== articles.length - 1 ? '1px solid black' : 'none' }}>
-                            <h5>{article.title}</h5>
-                            {token && (article.publicStatus ? <p>Public</p> : <p>Private</p>)}
-                            {article.folderName && <h5>{article.folderName}</h5>}
-                            {article.thumbnailLink && (
-                                <div style={{width: '500px', height: '300px', overflow: 'hidden', display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
-                                    <img src={article.thumbnailLink} alt="thumbnail" style={{width: '100%', height: '100%', objectFit: 'cover'}} />
-                                </div>
-                            )}
-                            <Link to={`/article/${article.id}`}>보러가기</Link>
-                        </div>
-                    )}
-
-                    <Pagination page={page} setPage={setPage} nextPageAvailable={nextPageAvailable} />
-                </div>
-            </div>
-            <Footer/>
+  return (
+    <div>
+      <div className='header'>
+        <Header/>
+      </div>
+      <div className="article-container">
+        <div className='sidebar'>
+            <Sidebar/>
         </div>
-    );
-}
+        <div className="content-container">
+          {articles.map((article, index) => 
+            <Link to={`/article/${article.id}`} key={`article-${index}`} className="link-no-decoration">
+              <div className={`article ${index !== articles.length - 1 ? 'has-border' : ''}`}>
+                <div className="article-header">
+                {article.folderName && <h5 className="folder-name">{article.folderName}</h5>}
+
+                  {token && (article.publicStatus ? <p className="public-status">Public</p> : <p className="private-status">Private</p>)}
+                </div>
+                {article.thumbnailLink && (
+                  <div className="thumbnail-container">
+                    <img className="thumbnail-image"
+                          src={article.thumbnailLink} 
+                          alt="thumbnail" />
+                  </div>
+                )}
+                <h2>{article.title}</h2>
+              </div>
+            </Link>
+          )}
+          <div className="pagination-container">
+            <Pagination page={page} setPage={setPage} nextPageAvailable={nextPageAvailable} />
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
 
 export default ArticleList;

@@ -1,13 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useParams, useNavigate } from 'react-router-dom';
-import Header from '../common/Header'
 import Cookies from 'js-cookie';
 
 import {useApi} from '../utils/useApi'
+import Header from '../common/Header'
 import Sidebar from '../common/Sidebar';
 import MarkdownRender from '../utils/MarkdownRenderer';
-import '../styles/page/Article.css'
+
+import '../styles/ArticleById.css'
 
 const Article = () => {
     const { id } = useParams();
@@ -67,16 +68,29 @@ const Article = () => {
 
     return (
         <div>
-            <Header/>
-            <div style={{ display: 'flex' }}>
-                {/* <Sidebar/> */}
+            <div className='header'>
+                <Header/>
+            </div>
+            <div>
+                <div className='sidebar'>
+                    <Sidebar/>
+                </div>
                 <div className="article-content">
-                    <h1>{article.title}</h1>
-                    <h2>{article.folder.name}</h2>
-                    <MarkdownRender content={article.content} />
-                    {token && <button onClick={handleDelete}>Delete</button>}
-                    {token && <button onClick={handleEdit}>수정하기</button>}
-                    {token && <button onClick={handleGoToArticleList}>글 목록으로 가기</button>}
+                    <div className="article-folder">
+                        <h5>{article.folder.name}</h5>
+                    </div>
+                    <div className="article-title">
+                        <h1>{article.title}</h1>
+                    </div>
+                    <div className="title-separator"></div> 
+                    <div className="article-body">
+                        <MarkdownRender content={article.content} />
+                    </div>
+                    <div className="article-actions">
+                        {token && <button onClick={handleDelete}>Delete</button>}
+                        {token && <button onClick={handleEdit}>수정하기</button>}
+                        {token && <button onClick={handleGoToArticleList}>글 목록으로 가기</button>}
+                    </div>
                 </div>
             </div>
         </div>

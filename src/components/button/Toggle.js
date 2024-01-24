@@ -1,6 +1,4 @@
 import React from 'react';
-import '../../styles/button/Toggle.css';
-
 const Toggle = ({isToggled, setIsToggled}) => {
 
     const handleToggle = () => {
