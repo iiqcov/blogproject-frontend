@@ -3,10 +3,12 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { useApi } from '../utils/useApi';
 import TextareaAutosize from 'react-textarea-autosize';
 import ImageUpload from './image/ImageUpload';
-
+import FolderList from './folder/FolderView';
 import CheckLogin from './login/CheckLogin';
 import MarkdownRender from '../utils/MarkdownRenderer';
 import Toggle from './button/Toggle';
+
+import '../styles/EditArticle.css'
 
 const EditArticle = () => {
     const { id } = useParams();
@@ -14,6 +16,7 @@ const EditArticle = () => {
     const [content, setContent] = useState('');
     const [thumbnail, setThumbnail] = useState('');
     const [isPublic, setIsPublic] = useState('');
+    const [folderInput, setFolderInput] = useState('');
 
     const navigate = useNavigate();
     const api = useApi();
@@ -26,6 +29,7 @@ const EditArticle = () => {
                 setContent(res.data.content);
                 setThumbnail(res.data.thumbnailLink);
                 setIsPublic(res.data.publicStatus);
+                setFolderInput(res.data.folderList);
             } catch (error) {
                 console.error('Failed to fetch article', error);
             }
@@ -60,6 +64,7 @@ const EditArticle = () => {
                 content: content,
                 thumbnailLink: thumbnail,
                 publicStatus: isPublic,
+                folder: folderInput,
             });
 
             if (response.status === 200 || response.status === 201) {
@@ -76,17 +81,30 @@ const EditArticle = () => {
     return (
         <form onSubmit={handleSubmit} className="container custom-container">
             <CheckLogin/>
-            <div>
-                <div style={{width: '500px', height: '300px', overflow: 'hidden', border: '1px dashed gray', display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
+            <div style={{display: 'flex'}}>
+                <div className="thumbnail-container">
                     {thumbnail ? (
                         <img src={thumbnail} alt="thumbnail" style={{width: '100%', height: '100%', objectFit: 'cover'}} />
                     ) : (
                         <p>썸네일을 등록해주세요</p>
                     )}
                 </div>
-                <ImageUpload onUpload={handleThumbnailUpload} />
-                <Toggle isToggled={isPublic} setIsToggled={setIsPublic} /> 
+                <div className='setting'>
+                    <div className="image-button">
+                        <ImageUpload onUpload={handleThumbnailUpload} buttonText="Thumbnail" />
+                    </div>
+                    <div className="image-button">
+                        <ImageUpload onUpload={handleImageUpload} buttonText="Image" />
+                    </div>
+                    <div className="toggle-container">
+                        <Toggle isToggled={isPublic} setIsToggled={setIsPublic} />
+                    </div>
+                    <div className='folder-input'>
+                        <FolderList input={folderInput} setInput={setFolderInput} />
+                    </div>
+                </div>
             </div>
+
             <div className="custom-input-field">
                 <input 
                     type="text" 
@@ -95,7 +113,6 @@ const EditArticle = () => {
                     placeholder="Title" 
                     className="input-field"
                 />
-                <ImageUpload onUpload={handleImageUpload} />
                 <button type="submit" className="submit-button custom-submit-button">Submit</button>
             </div>
             <div className="editor-container custom-editor-container">

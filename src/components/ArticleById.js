@@ -60,10 +60,6 @@ const Article = () => {
         }
     };
 
-    const handleGoToArticleList = ()=>{
-        navigate('/articles');
-    };
-
     if (!article) return null;
 
     return (
@@ -77,19 +73,22 @@ const Article = () => {
                 </div>
                 <div className="article-content">
                     <div className="article-folder">
-                        <h5>{article.folder.name}</h5>
+                        <h5>{article.folderName}</h5>
                     </div>
                     <div className="article-title">
                         <h1>{article.title}</h1>
                     </div>
+                    <div className="article-actions">
+                    {token && 
+                        <div className="button-container">
+                            <button onClick={handleDelete} className="delete-button custom-button">Delete</button>
+                            <button onClick={handleEdit} className="edit-button custom-button">Edit</button>
+                        </div>
+                        }
+                    </div>
                     <div className="title-separator"></div> 
                     <div className="article-body">
                         <MarkdownRender content={article.content} />
-                    </div>
-                    <div className="article-actions">
-                        {token && <button onClick={handleDelete}>Delete</button>}
-                        {token && <button onClick={handleEdit}>수정하기</button>}
-                        {token && <button onClick={handleGoToArticleList}>글 목록으로 가기</button>}
                     </div>
                 </div>
             </div>

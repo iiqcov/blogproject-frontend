@@ -1,0 +1,39 @@
+.thumbnail-container {
+    width: 500px;
+    height: 300px;
+    overflow: hidden;
+    border: 1px dashed gray;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.toggle-container {
+   margin-left: 10px;
+}
+
+.image-button {
+    margin: 10px auto;
+    text-align: left;
+    margin-left: 10px;
+    margin-bottom: 5px;
+    margin-top: 5px;
+    cursor: pointer;
+}
+
+.toggle-container{
+    margin-top: 5px;
+    margin-bottom: 10px;
+}
+
+.setting{
+    display: flex;
+    justify-content: flex-start;
+    align-items: left;
+    flex-direction: column;
+    text-align: left;
+}
+
+.submit-button{
+    cursor: pointer;
+}
