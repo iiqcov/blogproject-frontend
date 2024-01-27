@@ -1,5 +1,5 @@
 .side-bar {
-    width: 25vh;
+    width: 18vh;
     overflow-y: auto;
     overflow-x: hidden; 
     position: fixed;
@@ -22,18 +22,17 @@
     z-index: 1;
     cursor: pointer;
     width: 80px;
-    margin-top: 25px;
 } 
 
 
  @media (max-width: 1000px) {
     .side-bar {
-        transform: translateX(-100%); 
-    }
-
-    .menu-icon{
+        transform: translateX(-100%);
+      }
+    
+      .menu-icon {
         display: block;
-    }
+      }
 
     .side-bar.open {
         transform: translateX(0);

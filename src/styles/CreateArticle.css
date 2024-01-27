@@ -1,13 +1,8 @@
-.custom-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-
 .custom-input-field {
     display: flex;
     justify-content: space-between;
     width: 80%;
+    margin: auto;
     margin-bottom: 10px;
     border-bottom: 1px solid #e3e3e3;
 }
@@ -20,28 +15,48 @@
 }
 
 .custom-textarea-field {
-    width: 50%;
+    width: 40%;
     min-height: 500px; 
     overflow: visible; 
     resize: none; 
     border: none;
     outline: none;
-    border-right: 1px solid #e3e3e3;
+}
+
+.rendered-field {
+    padding-left: 1px solid #e3e3e3;
+    box-sizing: border-box; 
+}
+
+
+.layout-container {
+    display: flex;
+    justify-content: space-between;
+}
+
+
+.image-upload-button{
+    margin-left: 10px;
+}
+
+.thumbnail-upload-button{
+    margin-left: 10px;
+    padding-left: 5px;
 }
 
 .custom-markdown-preview {
-    width: 50%;
+    width: 40%;
     overflow: visible;
-    margin-left: 20px;
+    margin-left: 30px;
 }
 
 .custom-submit-button {
     align-self: flex-end;
+    margin-left: 10px;
     margin-bottom: 20px;
     padding-bottom: 20px;
-    padding: 10px 10px 10px 10px;
+    padding: 5px 10px 10px 10px;
 }
-
 
 .input-field {
     width: 80%; 
@@ -51,4 +66,73 @@
     margin-bottom: 20px;
     outline: none;
     padding: 10px 0 10px 10px;
+}
+
+.folder-input{
+    margin-left: 20px;
+}
+
+.thumbnail-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.thumbnail-container {
+    width: 500px;
+    height: 300px;
+    overflow: 'hidden';
+    border: 1px dashed gray;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.setting {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: left;
+    width: 50%;
+}
+
+.custom-div {
+    display: flex;
+    flex-direction: row;
+}
+
+.thumbnail-placeholder {
+    text-align: center;
+}
+
+.container.custom-container {
+    padding-top: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: auto;
+    margin-top: 5vh;
+    margin-bottom: 5vh;
+    padding-bottom: 10vh;
+}
+
+.image-button {
+    margin: 10px auto;
+    text-align: left;
+    margin-left: 10px;
+    margin-bottom: 5px;
+    margin-top: 5px;
+}
+
+.toggle-container{
+    margin-top: 5px;
+}
+
+.setting{
+    display: flex;
+    justify-content: flex-start;
+    align-items: left;
+    flex-direction: column;
+    text-align: left;
 }

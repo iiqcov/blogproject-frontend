@@ -1,0 +1,9 @@
+.submit-button.custom-submit-button {
+    background-color: #eb0000; 
+    color: white; 
+    padding: 10px 15px; 
+    border-radius: 20px; 
+    width: fit-content; 
+    font-size: 16px; 
+    border: none;
+}

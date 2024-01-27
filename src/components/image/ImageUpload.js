@@ -2,7 +2,9 @@ import React from 'react';
 import axios from 'axios';
 import Cookies from 'js-cookie';
 
-const ImageUpload = ({ onUpload }) => {
+import '../../styles/ImageUpload.css'
+
+const ImageUpload = ({ onUpload, buttonText = '파일 선택' }) => {
     const handleImageUpload = async (event) => {
         const file = event.target.files[0];
         if (!file) {
@@ -36,11 +38,15 @@ const ImageUpload = ({ onUpload }) => {
     };
 
     return (
-        <input 
-            type="file"
-            onChange={handleImageUpload}
-            className="upload-button"
-        />
+        <div className="upload-button">
+            <label>
+                {buttonText}
+                <input 
+                    type="file"
+                    onChange={handleImageUpload}
+                />
+            </label>
+        </div>
     );
 };
 

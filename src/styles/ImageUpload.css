@@ -1,0 +1,20 @@
+.upload-button {
+    position: relative;
+    display: inline-block;
+    overflow: hidden;
+    cursor: pointer;
+    border-radius: 20px;
+    padding: 10px 20px;
+    background-color: #00a606;
+    color: white;
+}
+
+.upload-button input[type="file"] {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    cursor: pointer;
+}

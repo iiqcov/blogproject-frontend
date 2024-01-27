@@ -15,18 +15,17 @@ const Sidebar = () => {
 
   useEffect(() => {
     const handleResize = () => {
-      if (window.innerWidth <= 1000) {
-        setIsOpen(window.innerWidth > 1000);
-      }
+      setIsOpen(window.innerWidth > 1000);
     };
-    
-
-    window.addEventListener('resize', handleResize); 
-
+  
+    window.addEventListener('resize', handleResize);
+  
     return () => {
       window.removeEventListener('resize', handleResize);
     };
   }, []);
+  
+  
 
   useEffect(() => {
     axios.get('http://localhost:8080/folders')
@@ -40,7 +39,7 @@ const Sidebar = () => {
 
   return (
     <>
-      <div className="menu-icon" onClick={() => setIsOpen(!isOpen)}> 
+      <div className="menu-icon" onClick={() => setIsOpen(!isOpen)}>
         <img src={menuicon} alt="Menu Icon" />
       </div>
       <div className={`side-bar ${isOpen ? 'open' : ''}`}> 

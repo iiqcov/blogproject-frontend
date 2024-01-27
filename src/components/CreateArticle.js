@@ -31,17 +31,28 @@ const CreateArticle = () => {
     return (
         <form className="container custom-container">
             <CheckLogin/>
-            <div>
-                <FolderList input={folderInput} setInput={setFolderInput} />
-                <div style={{width: '500px', height: '300px', overflow: 'hidden', border: '1px dashed gray', display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
+            <div className="custom-div">
+                <div className="thumbnail-container">
                     {thumbnail ? (
-                        <img src={thumbnail} alt="thumbnail" style={{width: '100%', height: '100%', objectFit: 'cover'}} />
+                        <img src={thumbnail} alt="thumbnail" className="thumbnail-image" />
                     ) : (
-                        <p>썸네일을 등록해주세요</p>
+                        <p className="thumbnail-placeholder">썸네일을 등록해주세요</p>
                     )}
                 </div>
-                <ImageUpload onUpload={handleThumbnailUpload} />
-                <Toggle isToggled={isPublic} setIsToggled={setIsPublic} /> 
+                <div className='setting'>
+                    <div className="image-button">
+                        <ImageUpload onUpload={handleThumbnailUpload} buttonText="Thumbnail" />
+                    </div>
+                    <div className="image-button">
+                        <ImageUpload onUpload={handleImageUpload} buttonText="Image" />
+                    </div>
+                    <div className="toggle-container">
+                        <Toggle isToggled={isPublic} setIsToggled={setIsPublic} />
+                    </div>
+                    <div className='folder-input'>
+                        <FolderList input={folderInput} setInput={setFolderInput} />
+                    </div>
+                </div>
             </div>
             <div className="custom-input-field">
                 <input 
@@ -51,40 +62,48 @@ const CreateArticle = () => {
                     placeholder="Title" 
                     className="input-field"
                 />
-                <ImageUpload onUpload={handleImageUpload} />
-                <TempSaveArticle 
-                    title={title}
-                    content={content}
-                    folderInput={folderInput}
-                    thumbnailLink={thumbnail}
-                    isSubmitted={isSubmitted}
-                    setIsSubmitted={setIsSubmitted}
-                    articleId={articleId}
-                    setArticleId={setArticleId}
-                    isPublic={isPublic}
+                <div className="temp-save-button">
+                    <TempSaveArticle 
+                        title={title}
+                        content={content}
+                        folderInput={folderInput}
+                        thumbnailLink={thumbnail}
+                        isSubmitted={isSubmitted}
+                        setIsSubmitted={setIsSubmitted}
+                        articleId={articleId}
+                        setArticleId={setArticleId}
+                        isPublic={isPublic}
+                    />
+                </div>
+                <div className="post-article-button">
+                    <PostArticle 
+                        title={title}
+                        content={content}
+                        folderInput={folderInput}
+                        thumbnailLink={thumbnail}
+                        isSubmitted={isSubmitted}
+                        setIsSubmitted={setIsSubmitted}
+                        articleId={articleId}
+                        setArticleId={setArticleId}
+                        isPublic={isPublic}
+                    />
+                </div>
+            </div>
+            <div className="custom-editor-container">
+                <TextareaAutosize 
+                    value={content} 
+                    onChange={(event) => {setContent(event.target.value)}}
+                    className="textarea-field custom-textarea-field"
                 />
-                <PostArticle 
-                    title={title}
-                    content={content}
-                    folderInput={folderInput}
-                    thumbnailLink={thumbnail}
-                    isSubmitted={isSubmitted}
-                    setIsSubmitted={setIsSubmitted}
-                    articleId={articleId}
-                    setArticleId={setArticleId}
-                    isPublic={isPublic}
+                <MarkdownRender 
+                    content={content} 
+                    className="rendered-field"
                 />
             </div>
-            <div className="editor-container custom-editor-container">
-            <TextareaAutosize 
-                value={content} 
-                onChange={(event) => {setContent(event.target.value)}}
-                className="textarea-field custom-textarea-field"
-            />
-            <MarkdownRender content={content} />
-        </div>
         </form>
     );
+    
+    
 };
 
 export default CreateArticle;

@@ -1,5 +1,7 @@
 .markdown-preview-custom-markdown-preview {
-    line-height: 1.5;
-    width: 100%;
+    line-height: 1.7;
+    width: 90%;
     word-wrap: break-word;
+    padding-left: 3vh;
+    padding-left: 1px solid #e3e3e3;
   }

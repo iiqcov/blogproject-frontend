@@ -2,6 +2,8 @@ import React from 'react';
 import { useApi } from '../../utils/useApi';
 import { useNavigate } from 'react-router-dom';
 
+import '../../styles/PostArticle.css'
+
 const PostArticle = ({ title, content, folderInput, thumbnailLink, isSubmitted, setIsSubmitted, articleId, setArticleId, isPublic }) => {
     const api = useApi();
     const navigate = useNavigate();
