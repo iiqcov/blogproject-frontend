@@ -10,7 +10,7 @@ const Header = () => {
     };
 
     const handleDevelopmentClick = () => {
-        navigate("/folder/BLOG");
+        navigate("/Blog-Development");
     };
 
     return (
