@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import BlogHome from './pages/BlogHome';
 import WriteArticle from './pages/WriteArticle';
-import HomePage from './pages/HomePage';
 import Article from './components/ArticleById'; 
 import UpdateArticle from './pages/UpdateArticle';
 import Cookies from 'js-cookie';
@@ -26,7 +25,6 @@ function App() {
             <FetchToken />
             <Routes>
                 <Route path="" element={<BlogHome />} />
-                <Route path="/articles" element={<HomePage />} />
                 <Route path="/article/:id" element={<Article />} />
                 <Route path="/write-article" element={<WriteArticle />} />
                 <Route path="/edit-article/:id" element={<UpdateArticle />} />
