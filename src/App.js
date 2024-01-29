@@ -5,8 +5,6 @@ import WriteArticle from './pages/WriteArticle';
 import HomePage from './pages/HomePage';
 import Article from './components/ArticleById'; 
 import UpdateArticle from './pages/UpdateArticle';
-import LoginPage from './pages/LoginPage';
-import SignupPage from './pages/SigunupPage';
 import Cookies from 'js-cookie';
 import FolderPage from './pages/FolderPage';
 import ForbiddenPage from './pages/ForbiddenPage';
@@ -30,8 +28,6 @@ function App() {
                 <Route path="" element={<BlogHome />} />
                 <Route path="/articles" element={<HomePage />} />
                 <Route path="/article/:id" element={<Article />} />
-                <Route path="/login" element={<LoginPage />} />
-                <Route path="/sign-up" element={<SignupPage />} />
                 <Route path="/write-article" element={<WriteArticle />} />
                 <Route path="/edit-article/:id" element={<UpdateArticle />} />
                 <Route path='/:folderName' element={<FolderPage/>}/>
