@@ -1,10 +1,12 @@
 import React from 'react';
-import axios from 'axios';
-import Cookies from 'js-cookie';
+
+import {useApi} from '../../api/api';
 
 import '../../styles/ImageUpload.css'
 
 const ImageUpload = ({ onUpload, buttonText = '파일 선택' }) => {
+    const api=useApi();
+
     const handleImageUpload = async (event) => {
         const file = event.target.files[0];
         if (!file) {
@@ -20,18 +22,15 @@ const ImageUpload = ({ onUpload, buttonText = '파일 선택' }) => {
         }
 
         try {
-            const response = await axios.post('http://localhost:8080/api/image', formData, {
+            const response = await api.post('/api/image', formData, {
             headers: {
                 'Content-Type': 'multipart/form-data',
-                'Authorization': `Bearer ${Cookies.get('token')}`
             },
             });
 
             const imageUrl = response.data.imageUrl;
-            console.log(imageUrl);
             onUpload(imageUrl);
         } catch (error) {
-            console.error('Failed to upload image', error);
             alert('이미지 업로드에 실패했습니다.');
         }
         event.target.value=null;

@@ -1,11 +1,10 @@
 import React from "react";
-import { useParams } from "react-router-dom"; // 추가
+import { useParams } from "react-router-dom"; 
 import ArticleList from "../components/ArticleList";
 
 const FolderPage = () => {
-  const { folderName } = useParams(); // 추가
-  const url = `http://localhost:8080/folder/${folderName}`; // 수정
-  console.log(folderName);
+  const { folderName } = useParams(); 
+  const url = `/folder/${folderName}`; 
 
   return (
     <div>

@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { useApi } from '../utils/useApi';
+import { useApi } from '../api/api';
 import TextareaAutosize from 'react-textarea-autosize';
+
 import ImageUpload from './image/ImageUpload';
 import FolderList from './folder/FolderView';
 import CheckLogin from './login/CheckLogin';
@@ -35,7 +36,7 @@ const EditArticle = () => {
             }
         };
         fetchArticle();
-    }, [id]);
+    }, [id, api]);
 
     const handleImageUpload = (imageUrl) => {
         setContent(prevContent => `${prevContent}\n<img src="${imageUrl}" width="500">`);

@@ -1,5 +1,5 @@
 import React from 'react';
-import { useApi } from '../../utils/useApi';
+import { useApi } from '../../api/api';
 
 const PostArticle = ({ title, content, folderInput, thumbnailLink, isSubmitted, setIsSubmitted, articleId, setArticleId, isPublic}) => {
     const api = useApi();

@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
 import { useParams, useNavigate } from 'react-router-dom';
 import Cookies from 'js-cookie';
+import {useApi} from '../api/api';
 
-import {useApi} from '../utils/useApi'
 import Header from '../common/Header'
 import Sidebar from '../common/Sidebar';
 import MarkdownRender from '../utils/MarkdownRenderer';
@@ -19,11 +18,7 @@ const Article = () => {
     const token = Cookies.get('token');
 
     useEffect(() => {
-        axios.get(`http://localhost:8080/article/${id}`, {
-            headers: {
-                'Authorization': `Bearer ${token}`
-            }
-        })
+        api.get(`/article/${id}`)
         .then(res => {
             setArticle(res.data);
         })
@@ -32,7 +27,7 @@ const Article = () => {
                 navigate('/forbidden_page');
             }
         });
-    }, [id, token, navigate]);
+    }, [id, navigate, api]);
     
     
 
@@ -42,7 +37,7 @@ const Article = () => {
                 const response = await api.delete(`/api/article/${id}`);
                 if (response.status === 204) {
                     alert('삭제가 완료되었습니다.');
-                    navigate(`/articles`);
+                    navigate(`/`);
                 } else {
                     throw new Error('Failed to create article');
                 }
@@ -54,7 +49,7 @@ const Article = () => {
 
     const handleEdit = () => {
         if (token) {
-            navigate(`/edit-article/${id}`);  // 수정 페이지로 이동
+            navigate(`/edit-article/${id}`);
         } else {
             alert('로그인이 필요합니다.');
         }

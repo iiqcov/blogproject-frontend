@@ -1,7 +1,7 @@
 import ArticleList from "../components/ArticleList";
 
 const BlogHome = () => {
-    const url = "http://localhost:8080/articles";
+    const url = "/articles";
 
     return (
         <div>

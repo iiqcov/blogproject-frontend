@@ -1,7 +1,6 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import Cookies from 'js-cookie';
-import axios from 'axios'; 
 
 import writearticle from '../assets/edit_note_FILL0_wght400_GRAD0_opsz24.svg'
 import githublogo from '../assets/github-mark.svg'
@@ -10,14 +9,16 @@ import maillogo from '../assets/mail_FILL0_wght400_GRAD0_opsz24.svg'
 import personlogo from '../assets/mindfulness_FILL0_wght400_GRAD0_opsz24.svg'
 
 import '../styles/UserInfo.css'; 
+import { useApi } from '../api/api';
 
 const UserInfo = () => {
   const token = Cookies.get('token');
   const navigate = useNavigate(); 
+  const api=useApi();
 
   const goToLogout = async() => {
     try {
-      await axios.post('http://localhost:8080/api/logout', {}, {
+      await api.post('/api/logout', {}, {
         withCredentials: true
       });
       Cookies.remove('token');

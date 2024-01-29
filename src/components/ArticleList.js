@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 import Cookies from 'js-cookie';
+import {useApi} from '../api/api';
 
 import Header from '../common/Header';
 import Sidebar from '../common/Sidebar'
@@ -15,6 +16,8 @@ const ArticleList = ({ url }) => {
   const [nextPageAvailable, setNextPageAvailable] = useState(true); 
   const [token, setToken] = useState(null);
 
+  const api=useApi();
+
   useEffect(() => {
     setPage(0); 
   }, [url]);
@@ -27,13 +30,7 @@ const ArticleList = ({ url }) => {
   }, []);
 
   useEffect(() => {
-    const source = axios.CancelToken.source(); 
-
-    const headers = token 
-      ? { Authorization: `Bearer ${token}` } 
-      : {};
-
-    axios.get(`${url}?page=${page}`, { cancelToken: source.token, headers }) 
+    api.get(`${url}?page=${page}`) 
       .then(res => {
         if (res.data && res.data.page && Array.isArray(res.data.page.content)) {
           setArticles(res.data.page.content);
@@ -48,11 +45,7 @@ const ArticleList = ({ url }) => {
           // handle error
         }
       });
-
-    return () => {
-      source.cancel(); 
-    };
-  }, [url, page, token]);
+  }, [url, page, api]);
 
   return (
     <div>

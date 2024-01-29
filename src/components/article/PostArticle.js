@@ -1,5 +1,5 @@
 import React from 'react';
-import { useApi } from '../../utils/useApi';
+import { useApi } from '../../api/api';
 import { useNavigate } from 'react-router-dom';
 
 import '../../styles/PostArticle.css'
@@ -44,7 +44,7 @@ const PostArticle = ({ title, content, folderInput, thumbnailLink, isSubmitted, 
 
             if (response.status === 200 || response.status === 201) {
                 alert('등록 완료되었습니다.');
-                navigate('/articles');
+                navigate('/');
             } else {
                 throw new Error('Failed to create article');
             }

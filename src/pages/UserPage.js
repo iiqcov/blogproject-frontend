@@ -1,13 +1,17 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import User from './User'; // 경로는 실제 User 컴포넌트의 위치에 따라 달라집니다.
+
+import {useApi} from '../api/api';
+
+import User from './User'; 
 
 const UserPage = () => {
     const [user, setUser] = useState(null);
+    const api=useApi();
 
     const fetchUser = async () => {
         try {
-            const response = await axios.get('http://localhost:8080/user');
+            const response = await axios.get('/user');
             setUser(response.data);
         } catch (error) {
             console.error('Failed to fetch user', error);

@@ -1,18 +1,18 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import {useApi} from '../../api/api';
 
 const FolderList = ({ input, setInput }) => {
     const [data, setData] = useState([]);
     let firstSlashInput = false;
+    const api=useApi();
 
     useEffect(() => {
         const fetchData = async () => {
-            const result = await axios('http://localhost:8080/folders');
-            console.log(result.data);
+            const result = await api.get('/folders');
             setData(result.data);
         };
         fetchData();
-    }, []);
+    }, [api]);
 
     const handleInputChange = (e) => {
         setInput(e.target.value);

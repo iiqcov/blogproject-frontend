@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import {useApi} from '../api/api';
 
 import Folder from '../components/folder/Folder';
 import UserInfo from '../components/UserInfo';
@@ -12,6 +12,8 @@ import '../styles/Sidebar.css'
 const Sidebar = () => {
   const [folders, setFolders] = useState([]);
   const [isOpen, setIsOpen] = useState(window.innerWidth > 1000); 
+
+  const api=useApi();
 
   useEffect(() => {
     const handleResize = () => {
@@ -28,14 +30,14 @@ const Sidebar = () => {
   
 
   useEffect(() => {
-    axios.get('http://localhost:8080/folders')
+    api.get('/folders')
       .then(response => {
         setFolders(response.data);
       })
       .catch(error => {
         console.error('Failed to fetch folders', error);
       });
-  }, []);
+  }, [api]);
 
   return (
     <>
